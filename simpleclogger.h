@@ -52,5 +52,6 @@ void logger_fatal(const char *fmt, ...);
 
 void logger(int log_level, const char *fmt, ...);
 
+void logger_configure(logger_config_t *config);
 void logger_print_config();
 #endif

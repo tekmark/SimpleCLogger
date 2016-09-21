@@ -5,6 +5,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdarg.h>
+
 #include "simpleclogger.h"
 
 #define DEFAULT_LOG_LEVEL LOG_LEVEL_DEBUG
@@ -91,6 +92,7 @@ void logger_set_lvl_fatal() {
 int logger_set_log_file(const char * log_file) {
     logger_config->log_path = log_file;
     logger_config->log_fp = fopen(logger_config->log_path, "w+");
+    return 0;
 }
 
 void logger_real(int log_level, const char *fmt, va_list ap);
@@ -151,7 +153,7 @@ size_t get_log_ts_str(char * buf, size_t buf_size) {
 
     char fmt[buf_size];
     size_t length = strftime(fmt, buf_size, logger_config->log_ts_fmt, &nowtm);
-    snprintf (buf, buf_size, fmt, tv.tv_usec);
+    snprintf (buf, length, fmt, tv.tv_usec);
     return strlen (buf);
 }
 
@@ -163,6 +165,14 @@ const char * logger_get_lvl_name(int log_level) {
         //set to debug if invalid.DEBUG
         return LOGGER_LEVEL_NAMES[LOG_LEVEL_DEBUG];
     }
+}
+
+void logger_set_default_config(logger_config_t *config) {
+    memcpy((void*)config, (void*)&default_config, sizeof(default_config));
+}
+
+void logger_configure(logger_config_t *config) {
+    logger_config = config;
 }
 
 void logger_print_config () {
