@@ -153,7 +153,7 @@ size_t get_log_ts_str(char * buf, size_t buf_size) {
 
     char fmt[buf_size];
     size_t length = strftime(fmt, buf_size, logger_config->log_ts_fmt, &nowtm);
-    snprintf (buf, length, fmt, tv.tv_usec);
+    snprintf (buf, buf_size, fmt, tv.tv_usec);
     return strlen (buf);
 }
 
